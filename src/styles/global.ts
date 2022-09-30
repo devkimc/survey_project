@@ -11,9 +11,10 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        min-width: 360px;
+        min-width: 300px;
         margin: 0 30px;
     }
+
 `;
 
 export default GlobalStyle;
