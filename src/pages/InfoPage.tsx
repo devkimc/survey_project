@@ -21,7 +21,6 @@ import {
 const InfoPage = () => {
   const [userName, setUserName] = useState('');
   const [questionCount, setQuerstionCount] = useState(0);
-
   const surveyInfo = useLocation().search
 
   /* param */
@@ -30,9 +29,9 @@ const InfoPage = () => {
     const name = String(params.get('name'))
     const surveyId = params.get('id')
     const isValidSurvey = surveyId && surveys.surveys[Number(surveyId)]
+    const questions = surveys.surveys[Number(surveyId)].questions
 
     if (name && isValidSurvey) {
-      const questions = surveys.surveys[Number(surveyId)].questions
       localStorage.setItem('surveyId', String(params.get('id')))
       setUserName(name)
       setQuerstionCount(questions.length)
@@ -40,42 +39,6 @@ const InfoPage = () => {
       localStorage.removeItem('surveyId')
     }
   }, [])
-
-  /* progress */
-  const totalStage: number[] = [];
-  const stage: number[] = [1, 2, 3, 4];
-
-  const addRepeatNum = (num: number, quotient: number, remainder: number) => {
-    for (let i = 0; i < quotient; i++) {
-      totalStage.push(num);
-
-      if (i === quotient - 1 && num <= remainder) {
-        totalStage.push(num);
-      }
-    }
-  };
-
-  const setStage = (page: number) => {
-    const quotient = Math.floor(page / 4);
-    const remainder = page % 4;
-
-    /* 3 이하의 페이지 */
-    if (page === 1) {
-      totalStage.push(4);
-    } else if (page === 2) {
-      totalStage.push(1, 4);
-    } else if (page === 3) {
-      totalStage.push(1, 3, 4);
-
-      /* 4 이상의 페이지 */
-    } else {
-      stage.forEach((num) => {
-        addRepeatNum(num, quotient, remainder);
-      });
-    }
-  };
-
-  setStage(12); // example
 
   return (
     <InfoPageBlock>
