@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import surveys from 'datas/surveys.json';
 import {
   InfoExplain,
@@ -19,14 +19,27 @@ import {
 } from "./InfoPage.style";
 
 const InfoPage = () => {
+  const [userName, setUserName] = useState('');
+  const [questionCount, setQuerstionCount] = useState(0);
+
+  const surveyInfo = useLocation().search
 
   /* param */
-  const surveyInfo = useLocation().search
-  const params = new URLSearchParams(surveyInfo)
-  const surveyId: number = Number(params.get('id'));
-  const userName = params.get('name');
-  const questions = surveys.surveys[surveyId].questions
-  const questionsCount = questions.length;
+  useEffect(() => {
+    const params = new URLSearchParams(surveyInfo)
+    const name = String(params.get('name'))
+    const surveyId = params.get('id')
+    const isValidSurvey = surveyId && surveys.surveys[Number(surveyId)]
+
+    if (name && isValidSurvey) {
+      const questions = surveys.surveys[Number(surveyId)].questions
+      localStorage.setItem('surveyId', String(params.get('id')))
+      setUserName(name)
+      setQuerstionCount(questions.length)
+    } else {
+      localStorage.removeItem('surveyId')
+    }
+  }, [])
 
   /* progress */
   const totalStage: number[] = [];
@@ -94,10 +107,13 @@ const InfoPage = () => {
       <InfoFooter>
         <SurveyCountExplain>
           <SurveyCountTxt isNumber={false}>설문은 총</SurveyCountTxt>
-          <SurveyCountTxt isNumber>{questionsCount}문항</SurveyCountTxt>
+          <SurveyCountTxt isNumber> {questionCount}문항</SurveyCountTxt>
           <SurveyCountTxt isNumber={false}>입니다.</SurveyCountTxt>
         </SurveyCountExplain>
-        <SurveyStartButton>설문시작</SurveyStartButton>
+        <SurveyStartButton>
+          <Link to='/survey'>설문시작</Link>
+
+        </SurveyStartButton>
       </InfoFooter>
     </InfoPageBlock >
   );

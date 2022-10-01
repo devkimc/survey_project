@@ -1,6 +1,11 @@
 import { createGlobalStyle } from "styled-components";
+import { ThemeType } from './theme'
 
-const GlobalStyle = createGlobalStyle`
+type GlobalThemeType = {
+    theme: ThemeType;
+}
+
+const GlobalStyle = createGlobalStyle<GlobalThemeType>`
     @font-face {
         font-family: 'NotoSansCJKkr-Bold';
         src: url('fonts/NotoSansCJKkr-Bold.otf') format('opentype');
@@ -21,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
     }
 
+    a {
+        text-decoration: none;
+        color: ${props => props.theme.black};
+    }
 `;
 
 export default GlobalStyle;
