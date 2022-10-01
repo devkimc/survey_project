@@ -1,4 +1,6 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import surveys from 'datas/surveys.json';
 import {
   InfoExplain,
   InfoFooter,
@@ -10,9 +12,23 @@ import {
   InfoTitle,
   SurveyCountExplain,
   SurveyStartButton,
+  InfoSurveyImg,
+  InfoImg,
+  InfoMain,
+  BackIcon,
 } from "./InfoPage.style";
 
 const InfoPage = () => {
+
+  /* param */
+  const surveyInfo = useLocation().search
+  const params = new URLSearchParams(surveyInfo)
+  const surveyId: number = Number(params.get('id'));
+  const userName = params.get('name');
+  const questions = surveys.surveys[surveyId].questions
+  const questionsCount = questions.length;
+
+  /* progress */
   const totalStage: number[] = [];
   const stage: number[] = [1, 2, 3, 4];
 
@@ -47,37 +63,43 @@ const InfoPage = () => {
   };
 
   setStage(12); // example
-  console.log(totalStage);
 
   return (
     <InfoPageBlock>
       <InfoHeader>
+        <BackIcon src="/images/icon-back-black.png" />
         <InfoTitle>기초설문</InfoTitle>
       </InfoHeader>
 
-      <InfoSubTitle>
-        <InfoSubTitleTxt>
-          나쁜 생활습관을 바로 잡으면
-          <br /> 건강이 개선됩니다.
-        </InfoSubTitleTxt>
-      </InfoSubTitle>
-      <InfoExplain>
-        설문을 통해 나의 건강 상태를 확인하고,
-        <br /> 개선할 습관이 무엇인지 알아보아요!
-        <br /> 결과에 따라 나만의 관리 목표를 설정하면
-        <br /> 헬스매니저가 ??? 님께 맞는
-        <br /> 건강관리 서비스를 제공합니다.
-      </InfoExplain>
+      <InfoMain>
+        <InfoSubTitle>
+          <InfoSubTitleTxt>
+            나쁜 생활습관을 바로 잡으면
+            <br /> 건강이 개선됩니다.
+          </InfoSubTitleTxt>
+        </InfoSubTitle>
+        <InfoExplain>
+          설문을 통해 나의 건강 상태를 확인하고,
+          <br /> 개선할 습관이 무엇인지 알아보아요!
+          <br /> 결과에 따라 나만의 관리 목표를 설정하면
+          <br /> 헬스매니저가 {userName}님께 맞는
+          <br /> 건강관리 서비스를 제공합니다.
+        </InfoExplain>
+      </InfoMain>
+
+      <InfoImg>
+        <InfoSurveyImg src="/images/image-survey.png" />
+      </InfoImg>
 
       <InfoFooter>
         <SurveyCountExplain>
           <SurveyCountTxt isNumber={false}>설문은 총</SurveyCountTxt>
-          <SurveyCountTxt isNumber>??문항</SurveyCountTxt>
+          <SurveyCountTxt isNumber>{questionsCount}문항</SurveyCountTxt>
           <SurveyCountTxt isNumber={false}>입니다.</SurveyCountTxt>
         </SurveyCountExplain>
         <SurveyStartButton>설문시작</SurveyStartButton>
       </InfoFooter>
-    </InfoPageBlock>
+    </InfoPageBlock >
   );
 };
 
