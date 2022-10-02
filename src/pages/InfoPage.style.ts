@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ThemeType } from '../styles/theme';
+import { ThemeType } from 'styles/theme';
 
 type SurveyCountTxtProps = {
     theme: ThemeType;
@@ -47,7 +47,7 @@ export const InfoSubTitleTxt = styled.span`
 
 export const InfoExplain = styled.span`
     font-size: 14px;
-    color: ${props => props.theme.gray};
+    color: ${props => props.theme.grey};
 `;
 
 /* SurveyImg */

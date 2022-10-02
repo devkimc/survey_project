@@ -1,12 +1,12 @@
 export type ThemeType = {
     yellow: string;
-    gray: string;
+    grey: string;
     black: string;
 };
 
 const themeColor: ThemeType = {
     yellow: '#ffd300',
-    gray: '#444444',
+    grey: '#444444',
     black: '#000000',
 };
 
