@@ -1,15 +1,16 @@
 import survey from 'datas/surveys.json';
 import questions from 'datas/questions.json';
+import answers from 'datas/answers.json';
 
 const getSurveyObject = (id: string) => {
     return survey.surveys[Number(id)];
 };
 
-// const getQuestionsListObject = (order: number) => {
+// const getQuestionListObject = (order: number) => {
 //     return questions.questions[order];
 // };
 
-export const getQuestionsList = (id: string): number[] => {
+export const getQuestionList = (id: string): number[] => {
     const questions = getSurveyObject(id).questions;
     return questions;
 };
@@ -19,9 +20,22 @@ export const getSurveyTitle = (id: string): string => {
     return title;
 };
 
-// export const getQuestionsListList = (id: string): number
+export const getQuestionTitle = (questionId: number): string => {
+    return questions.questions[questionId]?.title;
+};
 
-// export const getQuestionsListTitle = (surveyId: string, order: number) => {
-//     const questions = getQuestionsList(id);
-//     return getQuestionsListObject(id);
+export const getAnswerList = (questionId: number): number[] => {
+    return questions.questions[questionId]?.answers;
+};
+
+export const getAnswerTextList = (answerList: number[]): string[] => {
+    const answerTextList = answers.answers.filter((answer, index) =>
+        answerList?.includes(index),
+    );
+    return answerTextList;
+};
+
+// export const getQuestionListTitle = (surveyId: string, order: number) => {
+//     const questions = getQuestionList(id);
+//     return getQuestionListObject(id);
 // };

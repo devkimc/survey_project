@@ -17,7 +17,7 @@ import {
     InfoMain,
     BackBlackIcon,
 } from './InfoPage.style';
-import { getQuestionsList } from 'utils/getSurveyData';
+import { getQuestionList } from 'utils/getSurveyData';
 
 const InfoPage = () => {
     const [userName, setUserName] = useState<string>('');
@@ -32,7 +32,7 @@ const InfoPage = () => {
         const isValidSurvey = surveyId && surveys.surveys[Number(surveyId)];
 
         if (name && isValidSurvey) {
-            const questions = getQuestionsList(surveyId);
+            const questions = getQuestionList(surveyId);
             sessionStorage.setItem('surveyId', surveyId);
             setUserName(name);
             setQuerstionCount(questions.length);

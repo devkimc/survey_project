@@ -22,7 +22,11 @@ export const SurveyMain = styled.div`
     padding-bottom: 50px;
 `;
 
-export const SurveyTitle = styled.span`
+export const SurveyTitle = styled.div`
+    padding-bottom: 50px;
+`;
+
+export const SurveyTitleTxt = styled.span`
     font-family: 'NotoSansCJKkr-Bold';
     font-size: 20px;
     color: ${props => props.theme.black};
@@ -41,17 +45,27 @@ export const SurveyTotalPage = styled.span`
     color: '#cccccc';
 `;
 
-export const SurveyQuestionTitle = styled.span`
+export const SurveyQuestionTitle = styled.div`
+    padding-bottom: 30px;
+`;
+
+export const QuestionTitleTxt = styled.span`
     font-size: 16px;
     color: ${props => props.theme.grey};
 `;
 
-export const SurveyAnswersList = styled.div``;
+export const SurveyAnswersList = styled.div`
+    width: 280px;
+    margin: 0 auto;
+`;
 
 export const SurveyAnswer = styled.button`
-    border-radius: 22px;
-    width: 100%;
-    height: 22px;
+    text-align: initial;
+    border-radius: 40px;
+    width: 280px;
+    height: 40px;
+    padding-left: 20px;
+    margin-bottom: 8px;
     color: ${props => props.theme.grey};
     background-color: '#f7f7f7';
 `;
