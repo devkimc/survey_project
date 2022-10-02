@@ -24,7 +24,7 @@ export const InfoTitle = styled.span`
     color: ${props => props.theme.black};
 `;
 
-export const BackIcon = styled.img`
+export const BackBlackIcon = styled.img`
     left: 0;
     position: absolute;
     cursor: pointer;

@@ -15,9 +15,9 @@ import {
     InfoSurveyImg,
     InfoImg,
     InfoMain,
-    BackIcon,
+    BackBlackIcon,
 } from './InfoPage.style';
-import getQuestions from 'utils/getQuestions';
+import { getQuestionsList } from 'utils/getSurveyData';
 
 const InfoPage = () => {
     const [userName, setUserName] = useState<string>('');
@@ -32,7 +32,7 @@ const InfoPage = () => {
         const isValidSurvey = surveyId && surveys.surveys[Number(surveyId)];
 
         if (name && isValidSurvey) {
-            const questions = getQuestions(surveyId);
+            const questions = getQuestionsList(surveyId);
             sessionStorage.setItem('surveyId', surveyId);
             setUserName(name);
             setQuerstionCount(questions.length);
@@ -42,7 +42,7 @@ const InfoPage = () => {
     return (
         <InfoPageBlock>
             <InfoHeader>
-                <BackIcon src="/images/icon-back-black.png" />
+                <BackBlackIcon src="/images/icon-back-black.png" />
                 <InfoTitle>기초설문</InfoTitle>
             </InfoHeader>
 
