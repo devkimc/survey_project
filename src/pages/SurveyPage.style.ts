@@ -1,4 +1,10 @@
 import styled from 'styled-components';
+import { ThemeType } from 'styles/theme';
+
+type NextPageTxtType = {
+    theme: ThemeType;
+    isValid: boolean;
+};
 
 export const SurveyPageBlock = styled.div`
     width: 300px;
@@ -74,10 +80,10 @@ export const PrevPageTxt = styled.span`
     font-size: 16px;
     color: ${props => props.theme.grey};
 `;
-export const NextPageTxt = styled.span`
+export const NextPageTxt = styled.span<NextPageTxtType>`
     font-family: 'NotoSansCJKkr-Bold';
     font-size: 16px;
-    color: ${props => props.theme.yellow};
+    color: ${props => (props.isValid ? props.theme.yellow : '#cccccc')};
 `;
 
 export const BackGreyIcon = styled.img`

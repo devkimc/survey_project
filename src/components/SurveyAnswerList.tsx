@@ -16,22 +16,21 @@ type Props = {
 };
 
 const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
-    const onClickAnswer = (answerId: number, mode: number) => {
-        procQuestion(answerId, mode);
+    const initAnswer = (prevAnswers: AnswersType) => {
+        setAnswers(prevAnswers);
     };
 
-    const initAnswer = () => {
-        setAnswers([...answers.slice(0, page)]);
-    };
-
-    const addAnswer = (answerId: number, mode: number, nowAnswer: number[]) => {
+    const addAnswer = (
+        answerId: number,
+        mode: number,
+        nowAnswer: number[],
+        prevAnswers: AnswersType,
+    ) => {
         if (mode) {
-            setAnswers([
-                ...answers.slice(0, page),
-                [...nowAnswer.slice(0, nowAnswer.length), answerId],
-            ]);
+            const nowPrevAnswers = nowAnswer.slice(0, nowAnswer.length);
+            setAnswers([...prevAnswers, [...nowPrevAnswers, answerId]]);
         } else {
-            setAnswers([...answers.slice(0, page), [answerId]]);
+            setAnswers([...prevAnswers, [answerId]]);
         }
     };
 
@@ -41,15 +40,20 @@ const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
 
     const procQuestion = (answerId: number, mode: number) => {
         const nowAnswer = answers[page];
-        const isExistAnswer = nowAnswer.includes(answerId);
+        const prevAnswers = answers.slice(0, page);
+        const isExistAnswer = nowAnswer?.includes(answerId);
 
         if (nowAnswer && isExistAnswer) {
-            initAnswer();
+            initAnswer(prevAnswers);
         } else if (nowAnswer && !isExistAnswer) {
-            addAnswer(answerId, mode, nowAnswer);
+            addAnswer(answerId, mode, nowAnswer, prevAnswers);
         } else {
             setFirstAnswer(answerId);
         }
+    };
+
+    const onClickAnswer = (answerId: number, mode: number) => {
+        procQuestion(answerId, mode);
     };
 
     return (

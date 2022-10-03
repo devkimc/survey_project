@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     getQuestionList,
+    getQuestionMode,
     getQuestionTitle,
     getSurveyTitle,
 } from 'utils/getSurveyData';
@@ -40,12 +41,12 @@ const SurveyPage = () => {
         const surveyId = sessionStorage.getItem('surveyId');
 
         if (surveyId !== null) {
-            const questions = getQuestionList(surveyId);
-            setQuestionList(questions);
+            setQuestionList(getQuestionList(surveyId));
             setSurveyTitle(getSurveyTitle(surveyId));
         }
     }, []);
 
+    /* Paging */
     const onClickPrevPage = () => {
         if (page) {
             setPage(page => page - 1);
@@ -54,8 +55,19 @@ const SurveyPage = () => {
         }
     };
 
-    const onClickNextPage = () => {
-        setPage(page => page + 1);
+    const chkValidAnswer = (mode: number): boolean => {
+        let answer = false;
+        const answersCount = answers[page]?.length;
+        if (!mode && answersCount === 1) {
+            answer = true;
+        } else if (mode && answersCount > 1) {
+            answer = true;
+        }
+        return answer;
+    };
+
+    const onClickNextPage = (mode: number) => {
+        if (chkValidAnswer(mode)) setPage(page => page + 1);
     };
 
     return (
@@ -99,11 +111,21 @@ const SurveyPage = () => {
                     <PrevPageTxt>이전</PrevPageTxt>
                 </PrevPageButton>
 
-                <NextPageButton onClick={onClickNextPage}>
-                    <NextPageTxt>다음</NextPageTxt>
+                <NextPageButton
+                    onClick={() =>
+                        onClickNextPage(getQuestionMode(questionList[page]))
+                    }
+                >
+                    <NextPageTxt
+                        isValid={chkValidAnswer(
+                            getQuestionMode(questionList[page]),
+                        )}
+                    >
+                        다음
+                    </NextPageTxt>
                     <BackPrimaryIcon
                         src={
-                            answers
+                            chkValidAnswer(getQuestionMode(questionList[page]))
                                 ? '/images/icon-back-primary.png'
                                 : '/images/icon-next-icon.png'
                         }
