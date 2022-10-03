@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import {
+    progressCircleImg,
+    progressGreyImg,
+    progressPrimaryImg,
+} from 'static/images';
 import { getProgressBar } from 'utils/getProgressBar';
 import {
     ProgressBarBlock,
@@ -13,6 +18,7 @@ type Props = {
 
 const ProgressBar = ({ page, questionsCount }: Props) => {
     const [progressBar, setProgressBar] = useState<number[]>([]);
+    const pages: number[] = [1, 2, 3];
 
     useEffect(() => {
         if (questionsCount) {
@@ -22,28 +28,16 @@ const ProgressBar = ({ page, questionsCount }: Props) => {
 
     return (
         <ProgressBarBlock>
-            <ProgressCircle src="/images/image-progress-circle.jpg" />
-            <ProgressImage
-                src={
-                    progressBar[page] > 1
-                        ? '/images/image-progress-primary.jpg'
-                        : '/images/image-progress-grey.jpg'
-                }
-            />
-            <ProgressImage
-                src={
-                    progressBar[page] > 2
-                        ? '/images/image-progress-primary.jpg'
-                        : '/images/image-progress-grey.jpg'
-                }
-            />
-            <ProgressImage
-                src={
-                    progressBar[page] > 3
-                        ? '/images/image-progress-primary.jpg'
-                        : '/images/image-progress-grey.jpg'
-                }
-            />
+            <ProgressCircle src={progressCircleImg} />
+            {pages.map((element: number) => (
+                <ProgressImage
+                    src={
+                        progressBar[page] > element
+                            ? progressPrimaryImg
+                            : progressGreyImg
+                    }
+                />
+            ))}
         </ProgressBarBlock>
     );
 };

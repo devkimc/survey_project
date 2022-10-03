@@ -18,6 +18,7 @@ import {
     BackBlackIcon,
 } from './InfoPage.style';
 import { getQuestionList } from 'utils/getSurveyData';
+import { backBlackIcon, surveyImg } from 'static/images';
 
 const InfoPage = () => {
     const [userName, setUserName] = useState<string>('');
@@ -27,7 +28,7 @@ const InfoPage = () => {
     /* param */
     useEffect(() => {
         const params = new URLSearchParams(surveyInfo);
-        const name = String(params.get('name'));
+        const name = params.get('name');
         const surveyId = params.get('id');
         const isValidSurvey = surveyId && surveys.surveys[Number(surveyId)];
 
@@ -42,7 +43,7 @@ const InfoPage = () => {
     return (
         <InfoPageBlock>
             <InfoHeader>
-                <BackBlackIcon src="/images/icon-back-black.png" />
+                <BackBlackIcon src={backBlackIcon} />
                 <InfoTitle>기초설문</InfoTitle>
             </InfoHeader>
 
@@ -63,7 +64,7 @@ const InfoPage = () => {
             </InfoMain>
 
             <InfoImg>
-                <InfoSurveyImg src="/images/image-survey.png" />
+                <InfoSurveyImg src={surveyImg} />
             </InfoImg>
 
             <InfoFooter>

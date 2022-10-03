@@ -3,6 +3,13 @@ import SurveyAnswerList from 'components/SurveyAnswerList';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    backBlackIcon,
+    backGreyIcon,
+    backPrimaryIcon,
+    nextIcon,
+    surveyDoneImg,
+} from 'static/images';
+import {
     getAnswer,
     getQuestionList,
     getQuestionMode,
@@ -86,11 +93,11 @@ const SurveyPage = () => {
         if (completed) {
             const initString: string = '';
             const surveyResult: string = questionList.reduce(
-                (prev, curr, index) =>
-                    /* 모든 질문에 대한 reduce */
-                    `${prev}${getQuestionTitle(curr)}: ${answers[index].reduce(
-                        /* 모든 답안에 대한 reduce */
-                        (prev, curr) => `${prev}${getAnswer(curr)} `,
+                // 모든 질문에 대한 reduce
+                (p, c, i) =>
+                    `${p}${getQuestionTitle(c)}: ${answers[i].reduce(
+                        // 모든 답안에 대한 reduce
+                        (p, c) => `${p}${getAnswer(c)} `,
                         initString,
                     )}\n`,
                 initString,
@@ -103,7 +110,7 @@ const SurveyPage = () => {
         <SurveyPageBlock>
             {completed ? (
                 <SurveyCompletedBlock>
-                    <SurveyDoneImg src="/images/image-survey-done.png" />
+                    <SurveyDoneImg src={surveyDoneImg} />
                     <CompletedSurveyTitle>{surveyTitle}</CompletedSurveyTitle>
                     <CompletedSurveyExplain>
                         평가설문이 끝났습니다.
@@ -114,7 +121,7 @@ const SurveyPage = () => {
                     <SurveyHeader>
                         <BackBlackIcon
                             onClick={() => navigate(-1)}
-                            src="/images/icon-back-black.png"
+                            src={backBlackIcon}
                         />
                     </SurveyHeader>
                     <SurveyMain>
@@ -153,7 +160,7 @@ const SurveyPage = () => {
 
             <SurveyFooter>
                 <PrevPageButton onClick={onClickPrevPage}>
-                    <BackGreyIcon src="/images/icon-back-grey.png" />
+                    <BackGreyIcon src={backGreyIcon} />
                     <PrevPageTxt>이전</PrevPageTxt>
                 </PrevPageButton>
 
@@ -174,8 +181,8 @@ const SurveyPage = () => {
                         src={
                             completed ||
                             chkValidAnswer(getQuestionMode(questionList[page]))
-                                ? '/images/icon-back-primary.png'
-                                : '/images/icon-next-icon.png'
+                                ? backPrimaryIcon
+                                : nextIcon
                         }
                     />
                 </NextPageButton>

@@ -5,7 +5,6 @@ export const ProgressBarBlock = styled.div`
 `;
 
 export const ProgressCircle = styled.img`
-    background-image: '/images/image-progress-circle.jpg';
     width: 13.2px;
 `;
 
