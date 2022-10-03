@@ -21,6 +21,7 @@ import {
     PrevPageTxt,
     QuestionTitleTxt,
     SurveyCompletedBlock,
+    SurveyDoneImg,
     SurveyFooter,
     SurveyHeader,
     SurveyMain,
@@ -86,14 +87,12 @@ const SurveyPage = () => {
             const initString: string = '';
             const surveyResult: string = questionList.reduce(
                 (prev, curr, index) =>
-                    prev +
-                    getQuestionTitle(curr) +
-                    ': ' +
-                    answers[index].reduce(
-                        (prev, curr) => prev + getAnswer(curr) + ' ',
+                    /* 모든 질문에 대한 reduce */
+                    `${prev}${getQuestionTitle(curr)}: ${answers[index].reduce(
+                        /* 모든 답안에 대한 reduce */
+                        (prev, curr) => `${prev}${getAnswer(curr)} `,
                         initString,
-                    ) +
-                    '\n',
+                    )}\n`,
                 initString,
             );
             alert(surveyResult);
@@ -104,6 +103,7 @@ const SurveyPage = () => {
         <SurveyPageBlock>
             {completed ? (
                 <SurveyCompletedBlock>
+                    <SurveyDoneImg src="/images/image-survey-done.png" />
                     <CompletedSurveyTitle>{surveyTitle}</CompletedSurveyTitle>
                     <CompletedSurveyExplain>
                         평가설문이 끝났습니다.
@@ -111,6 +111,12 @@ const SurveyPage = () => {
                 </SurveyCompletedBlock>
             ) : (
                 <>
+                    <SurveyHeader>
+                        <BackBlackIcon
+                            onClick={() => navigate(-1)}
+                            src="/images/icon-back-black.png"
+                        />
+                    </SurveyHeader>
                     <SurveyMain>
                         <ProgressBar
                             page={page}
