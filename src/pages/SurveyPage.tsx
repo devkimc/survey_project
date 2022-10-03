@@ -12,11 +12,14 @@ import {
     BackBlackIcon,
     BackGreyIcon,
     BackPrimaryIcon,
+    CompletedSurveyExplain,
+    CompletedSurveyTitle,
     NextPageButton,
     NextPageTxt,
     PrevPageButton,
     PrevPageTxt,
     QuestionTitleTxt,
+    SurveyCompletedBlock,
     SurveyFooter,
     SurveyHeader,
     SurveyMain,
@@ -30,9 +33,10 @@ import {
 } from './SurveyPage.style';
 
 const SurveyPage = () => {
-    const [answers, setAnswers] = useState<number[][]>([]);
-    const [questionList, setQuestionList] = useState<number[]>([]);
     const [page, setPage] = useState<number>(0);
+    const [answers, setAnswers] = useState<number[][]>([]);
+    const [completed, setCompleted] = useState<boolean>(false);
+    const [questionList, setQuestionList] = useState<number[]>([]);
     const [surveyTitle, setSurveyTitle] = useState<string>('');
 
     const navigate = useNavigate();
@@ -47,6 +51,14 @@ const SurveyPage = () => {
     }, []);
 
     /* Paging */
+    useEffect(() => {
+        const isCompleted = page > questionList.length - 1;
+        const isLastPage = page === questionList.length - 1;
+        if (isCompleted || (isLastPage && completed)) {
+            setCompleted(completed => !completed);
+        }
+    }, [page]);
+
     const onClickPrevPage = () => {
         if (page) {
             setPage(page => page - 1);
@@ -58,52 +70,67 @@ const SurveyPage = () => {
     const chkValidAnswer = (mode: number): boolean => {
         let answer = false;
         const answersCount = answers[page]?.length;
-        if (!mode && answersCount === 1) {
-            answer = true;
-        } else if (mode && answersCount > 1) {
+        if ((!mode && answersCount === 1) || (mode && answersCount > 1)) {
             answer = true;
         }
         return answer;
     };
 
     const onClickNextPage = (mode: number) => {
-        if (chkValidAnswer(mode)) setPage(page => page + 1);
+        if (chkValidAnswer(mode)) {
+            setPage(page => page + 1);
+        }
+
+        if (completed) {
+            const surveyResult = '11\n11';
+            alert(surveyResult);
+        }
     };
 
     return (
         <SurveyPageBlock>
-            <SurveyHeader>
-                <BackBlackIcon
-                    onClick={() => navigate(-1)}
-                    src="/images/icon-back-black.png"
-                />
-            </SurveyHeader>
+            {completed ? (
+                <SurveyCompletedBlock>
+                    <CompletedSurveyTitle>{surveyTitle}</CompletedSurveyTitle>
+                    <CompletedSurveyExplain>
+                        평가설문이 끝났습니다.
+                    </CompletedSurveyExplain>
+                </SurveyCompletedBlock>
+            ) : (
+                <>
+                    <SurveyMain>
+                        <ProgressBar
+                            page={page}
+                            questionsCount={questionList.length}
+                        />
 
-            <SurveyMain>
-                <ProgressBar page={page} questionsCount={questionList.length} />
+                        <SurveyTitle>
+                            <SurveyTitleTxt>{surveyTitle}</SurveyTitleTxt>
+                        </SurveyTitle>
 
-                <SurveyTitle>
-                    <SurveyTitleTxt>{surveyTitle}</SurveyTitleTxt>
-                </SurveyTitle>
+                        <SurveyProgressPage>
+                            <SurveyNowPage>{page + 1}</SurveyNowPage>
+                            <SurveyTotalPage>
+                                {' '}
+                                /{questionList.length}
+                            </SurveyTotalPage>
+                        </SurveyProgressPage>
 
-                <SurveyProgressPage>
-                    <SurveyNowPage>{page + 1}</SurveyNowPage>
-                    <SurveyTotalPage> /{questionList.length}</SurveyTotalPage>
-                </SurveyProgressPage>
+                        <SurveyQuestionTitle>
+                            <QuestionTitleTxt>
+                                {getQuestionTitle(questionList[page])}
+                            </QuestionTitleTxt>
+                        </SurveyQuestionTitle>
 
-                <SurveyQuestionTitle>
-                    <QuestionTitleTxt>
-                        {getQuestionTitle(questionList[page])}
-                    </QuestionTitleTxt>
-                </SurveyQuestionTitle>
-
-                <SurveyAnswerList
-                    page={page}
-                    questionId={questionList[page]}
-                    answers={answers}
-                    setAnswers={setAnswers}
-                />
-            </SurveyMain>
+                        <SurveyAnswerList
+                            page={page}
+                            questionId={questionList[page]}
+                            answers={answers}
+                            setAnswers={setAnswers}
+                        />
+                    </SurveyMain>
+                </>
+            )}
 
             <SurveyFooter>
                 <PrevPageButton onClick={onClickPrevPage}>
@@ -117,14 +144,16 @@ const SurveyPage = () => {
                     }
                 >
                     <NextPageTxt
-                        isValid={chkValidAnswer(
-                            getQuestionMode(questionList[page]),
-                        )}
+                        isValid={
+                            completed ||
+                            chkValidAnswer(getQuestionMode(questionList[page]))
+                        }
                     >
                         다음
                     </NextPageTxt>
                     <BackPrimaryIcon
                         src={
+                            completed ||
                             chkValidAnswer(getQuestionMode(questionList[page]))
                                 ? '/images/icon-back-primary.png'
                                 : '/images/icon-next-icon.png'

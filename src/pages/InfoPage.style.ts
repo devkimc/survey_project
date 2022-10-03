@@ -20,7 +20,6 @@ export const InfoHeader = styled.div`
 
 export const InfoTitle = styled.span`
     font-family: 'NotoSansCJKkr-Bold';
-    font-size: 16px;
     color: ${props => props.theme.black};
 `;
 
@@ -72,7 +71,6 @@ export const SurveyCountExplain = styled.div`
 
 export const SurveyCountTxt = styled.span<SurveyCountTxtProps>`
     font-family: 'NotoSansCJKkr-Bold';
-    font-size: 16px;
     color: ${props =>
         props.isNumber ? props.theme.yellow : props.theme.black};
 `;

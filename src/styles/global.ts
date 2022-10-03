@@ -17,6 +17,7 @@ const GlobalStyle = createGlobalStyle<GlobalThemeType>`
 
     body {
         font-family: 'NotoSansCJKkr-Regular';
+        font-size: 16px;
         min-width: 300px;
         margin: 0 30px;
     }

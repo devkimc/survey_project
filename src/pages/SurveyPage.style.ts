@@ -7,7 +7,11 @@ type NextPageTxtType = {
 };
 
 export const SurveyPageBlock = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 300px;
+    min-height: 580px;
     padding-top: 20px;
 `;
 
@@ -56,7 +60,6 @@ export const SurveyQuestionTitle = styled.div`
 `;
 
 export const QuestionTitleTxt = styled.span`
-    font-size: 16px;
     color: ${props => props.theme.grey};
 `;
 
@@ -77,12 +80,10 @@ export const NextPageButton = styled.div`
 
 export const PrevPageTxt = styled.span`
     font-family: 'NotoSansCJKkr-Bold';
-    font-size: 16px;
     color: ${props => props.theme.grey};
 `;
 export const NextPageTxt = styled.span<NextPageTxtType>`
     font-family: 'NotoSansCJKkr-Bold';
-    font-size: 16px;
     color: ${props => (props.isValid ? props.theme.yellow : '#cccccc')};
 `;
 
@@ -94,4 +95,23 @@ export const BackGreyIcon = styled.img`
 export const BackPrimaryIcon = styled.img`
     position: absolute;
     left: 35px;
+`;
+
+/* Survey Complete */
+export const SurveyCompletedBlock = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 550px;
+`;
+
+export const CompletedSurveyTitle = styled.div`
+    text-align: center;
+    font-family: 'NotoSansCJKkr-Bold';
+    color: ${props => props.theme.black};
+`;
+
+export const CompletedSurveyExplain = styled.div`
+    text-align: center;
+    color: ${props => props.theme.black};
 `;
