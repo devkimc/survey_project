@@ -1,9 +1,5 @@
-import React from 'react';
-import {
-    getAnswerTextList,
-    getAnswerList,
-    getQuestionMode,
-} from 'utils/getSurveyData';
+import React, { useMemo } from 'react';
+import { getAnswerTextList, getAnswerList } from 'utils/getSurveyData';
 import { SurveyAnswersListBlock, SurveyAnswer } from './SurveyAnswerList.style';
 
 type AnswersType = number[][];
@@ -11,14 +7,24 @@ type AnswersType = number[][];
 type Props = {
     page: number;
     questionId: number;
+    questionMode: number;
     answers: AnswersType;
     setAnswers: (answers: AnswersType) => void;
 };
-const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
+
+const SurveyAnswerList = ({
+    page,
+    questionId,
+    questionMode,
+    answers,
+    setAnswers,
+}: Props) => {
+    // 이미 선택한 답안 클릭 시
     const initAnswer = (prevAnswers: AnswersType) => {
         setAnswers(prevAnswers);
     };
 
+    // 추가로 답안 클릭 시
     const addAnswer = (
         answerId: number,
         mode: number,
@@ -33,11 +39,12 @@ const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
         }
     };
 
+    // 처음으로 답안 클릭 시
     const setFirstAnswer = (answerId: number) => {
         setAnswers([...answers, [answerId]]);
     };
 
-    const procQuestion = (answerId: number, mode: number) => {
+    const procAnswer = (answerId: number, mode: number) => {
         const nowAnswer = answers[page];
         const prevAnswers = answers.slice(0, page);
         const isExistAnswer = nowAnswer?.includes(answerId);
@@ -52,28 +59,23 @@ const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
     };
 
     const onClickAnswer = (answerId: number, mode: number) => {
-        procQuestion(answerId, mode);
+        procAnswer(answerId, mode);
     };
+
+    const answerList = useMemo(() => getAnswerList(questionId), [questionId]);
 
     return (
         <SurveyAnswersListBlock>
-            {getAnswerTextList(getAnswerList(questionId)).map(
-                (answer, index) => (
-                    <SurveyAnswer
-                        active={answers[page]?.includes(
-                            getAnswerList(questionId)[index],
-                        )}
-                        onClick={() =>
-                            onClickAnswer(
-                                getAnswerList(questionId)[index],
-                                getQuestionMode(questionId),
-                            )
-                        }
-                    >
-                        {answer}
-                    </SurveyAnswer>
-                ),
-            )}
+            {getAnswerTextList(answerList).map((answer, index) => (
+                <SurveyAnswer
+                    active={answers[page]?.includes(answerList[index])}
+                    onClick={() =>
+                        onClickAnswer(answerList[index], questionMode)
+                    }
+                >
+                    {answer}
+                </SurveyAnswer>
+            ))}
         </SurveyAnswersListBlock>
     );
 };
