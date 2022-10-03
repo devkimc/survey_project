@@ -1,10 +1,8 @@
 /* 규칙에 따라 수를 반복해서 추가 */
-const addRepeatNum = (
-    totalStage: number[],
-    num: number,
-    quotient: number,
-    remainder: number,
-) => {
+const addRepeatNum = (totalStage: number[], num: number, page: number) => {
+    const quotient: number = Math.floor(page / 4);
+    const remainder: number = page % 4;
+
     for (let i = 0; i < quotient; i++) {
         totalStage.push(num);
 
@@ -28,12 +26,8 @@ const setProgressUnderFour = (page: number, totalStage: number[]) => {
 /* 진행단계 배열 생성 - 4 페이지 이상 */
 const setProgressManyFour = (page: number, totalStage: number[]) => {
     const stage: number[] = [1, 2, 3, 4];
-    const quotient: number = Math.floor(page / 4);
-    const remainder: number = page % 4;
 
-    stage.forEach((num: number) =>
-        addRepeatNum(totalStage, num, quotient, remainder),
-    );
+    stage.forEach((num: number) => addRepeatNum(totalStage, num, page));
 };
 
 /* 각 페이지에 따른 진행단계를 배열로 반환 */

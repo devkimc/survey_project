@@ -1,12 +1,9 @@
-import { type } from '@testing-library/user-event/dist/type';
 import ProgressBar from 'components/ProgressBar';
+import SurveyAnswerList from 'components/SurveyAnswerList';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    getAnswerList,
-    getAnswerTextList,
     getQuestionList,
-    getQuestionMode,
     getQuestionTitle,
     getSurveyTitle,
 } from 'utils/getSurveyData';
@@ -19,8 +16,6 @@ import {
     PrevPageButton,
     PrevPageTxt,
     QuestionTitleTxt,
-    SurveyAnswer,
-    SurveyAnswersList,
     SurveyFooter,
     SurveyHeader,
     SurveyMain,
@@ -36,7 +31,7 @@ import {
 const SurveyPage = () => {
     const [answers, setAnswers] = useState<number[][]>([]);
     const [questionList, setQuestionList] = useState<number[]>([]);
-    const [question, setQuestion] = useState<number>(0);
+    const [page, setPage] = useState<number>(0);
     const [surveyTitle, setSurveyTitle] = useState<string>('');
 
     const navigate = useNavigate();
@@ -52,53 +47,15 @@ const SurveyPage = () => {
     }, []);
 
     const onClickPrevPage = () => {
-        if (question) {
-            setQuestion(question => question - 1);
+        if (page) {
+            setPage(page => page - 1);
         } else {
             navigate(-1);
         }
     };
 
     const onClickNextPage = () => {
-        setQuestion(question => question + 1);
-    };
-
-    const onClickAnswer = (answerId: number, mode: number) => {
-        const nowAnswer = answers[question];
-        procQuestion(answerId, mode, nowAnswer);
-    };
-
-    const initAnswer = () => {
-        setAnswers([...answers.slice(0, question)]);
-    };
-
-    const addAnswer = (answerId: number, mode: number, nowAnswer: number[]) => {
-        if (mode) {
-            setAnswers([
-                ...answers.slice(0, question),
-                [...nowAnswer.slice(0, nowAnswer.length), answerId],
-            ]);
-        } else {
-            setAnswers([...answers.slice(0, question), [answerId]]);
-        }
-    };
-
-    const setFirstAnswer = (answerId: number) => {
-        setAnswers([...answers, [answerId]]);
-    };
-
-    const procQuestion = (
-        answerId: number,
-        mode: number,
-        nowAnswer: number[],
-    ) => {
-        if (nowAnswer && nowAnswer.includes(answerId)) {
-            initAnswer();
-        } else if (nowAnswer && !nowAnswer.includes(answerId)) {
-            addAnswer(answerId, mode, nowAnswer);
-        } else {
-            setFirstAnswer(answerId);
-        }
+        setPage(page => page + 1);
     };
 
     return (
@@ -111,55 +68,29 @@ const SurveyPage = () => {
             </SurveyHeader>
 
             <SurveyMain>
-                <ProgressBar
-                    question={question}
-                    questionsCount={questionList.length}
-                />
+                <ProgressBar page={page} questionsCount={questionList.length} />
 
                 <SurveyTitle>
                     <SurveyTitleTxt>{surveyTitle}</SurveyTitleTxt>
                 </SurveyTitle>
+
                 <SurveyProgressPage>
-                    <SurveyNowPage>{question + 1}</SurveyNowPage>
+                    <SurveyNowPage>{page + 1}</SurveyNowPage>
                     <SurveyTotalPage> /{questionList.length}</SurveyTotalPage>
                 </SurveyProgressPage>
 
                 <SurveyQuestionTitle>
                     <QuestionTitleTxt>
-                        {getQuestionTitle(questionList[question])}
+                        {getQuestionTitle(questionList[page])}
                     </QuestionTitleTxt>
                 </SurveyQuestionTitle>
 
-                <SurveyAnswersList>
-                    {getAnswerTextList(
-                        getAnswerList(questionList[question]),
-                    ).map((answer, index) => (
-                        <SurveyAnswer
-                            id={String(
-                                getAnswerList(questionList[question])[index],
-                            )}
-                            active={
-                                answers[question]?.includes(
-                                    getAnswerList(questionList[question])[
-                                        index
-                                    ],
-                                )
-                                    ? true
-                                    : false
-                            }
-                            onClick={() =>
-                                onClickAnswer(
-                                    getAnswerList(questionList[question])[
-                                        index
-                                    ],
-                                    getQuestionMode(questionList[question]),
-                                )
-                            }
-                        >
-                            {answer}
-                        </SurveyAnswer>
-                    ))}
-                </SurveyAnswersList>
+                <SurveyAnswerList
+                    page={page}
+                    questionId={questionList[page]}
+                    answers={answers}
+                    setAnswers={setAnswers}
+                />
             </SurveyMain>
 
             <SurveyFooter>
@@ -167,9 +98,9 @@ const SurveyPage = () => {
                     <BackGreyIcon src="/images/icon-back-grey.png" />
                     <PrevPageTxt>이전</PrevPageTxt>
                 </PrevPageButton>
+
                 <NextPageButton onClick={onClickNextPage}>
                     <NextPageTxt>다음</NextPageTxt>
-
                     <BackPrimaryIcon
                         src={
                             answers

@@ -7,35 +7,39 @@ import {
 } from './ProgressBar.style';
 
 type Props = {
-    question: number;
+    page: number;
     questionsCount: number;
 };
 
-const ProgressBar = ({ question, questionsCount }: Props) => {
+const ProgressBar = ({ page, questionsCount }: Props) => {
     const [progressBar, setProgressBar] = useState<number[]>([]);
+
     useEffect(() => {
-        setProgressBar(getProgressBar(questionsCount));
-    }, []);
+        if (questionsCount) {
+            setProgressBar(getProgressBar(questionsCount));
+        }
+    }, [questionsCount]);
+
     return (
         <ProgressBarBlock>
             <ProgressCircle src="/images/image-progress-circle.jpg" />
             <ProgressImage
                 src={
-                    progressBar[question] > 1
+                    progressBar[page] > 1
                         ? '/images/image-progress-primary.jpg'
                         : '/images/image-progress-grey.jpg'
                 }
             />
             <ProgressImage
                 src={
-                    progressBar[question] > 2
+                    progressBar[page] > 2
                         ? '/images/image-progress-primary.jpg'
                         : '/images/image-progress-grey.jpg'
                 }
             />
             <ProgressImage
                 src={
-                    progressBar[question] > 3
+                    progressBar[page] > 3
                         ? '/images/image-progress-primary.jpg'
                         : '/images/image-progress-grey.jpg'
                 }
