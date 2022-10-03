@@ -1,3 +1,4 @@
+import { type } from '@testing-library/user-event/dist/type';
 import ProgressBar from 'components/ProgressBar';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -5,6 +6,7 @@ import {
     getAnswerList,
     getAnswerTextList,
     getQuestionList,
+    getQuestionMode,
     getQuestionTitle,
     getSurveyTitle,
 } from 'utils/getSurveyData';
@@ -31,10 +33,8 @@ import {
     SurveyTotalPage,
 } from './SurveyPage.style';
 
-type AnswerType = null | number | number[];
-
 const SurveyPage = () => {
-    const [answers, setAnswers] = useState<AnswerType[]>([]);
+    const [answers, setAnswers] = useState<number[][]>([]);
     const [questionList, setQuestionList] = useState<number[]>([]);
     const [question, setQuestion] = useState<number>(0);
     const [surveyTitle, setSurveyTitle] = useState<string>('');
@@ -63,13 +63,41 @@ const SurveyPage = () => {
         setQuestion(question => question + 1);
     };
 
-    const onClickAnswer = (answerId: number) => {
-        if (answers[question] && answers[question] === answerId) {
-            setAnswers(answers => answers.slice(0, question));
-        } else if (answers[question] && answers[question] !== answerId) {
-            setAnswers(answers => answers.slice(0, question).concat(answerId));
+    const onClickAnswer = (answerId: number, mode: number) => {
+        const nowAnswer = answers[question];
+        procQuestion(answerId, mode, nowAnswer);
+    };
+
+    const initAnswer = () => {
+        setAnswers([...answers.slice(0, question)]);
+    };
+
+    const addAnswer = (answerId: number, mode: number, nowAnswer: number[]) => {
+        if (mode) {
+            setAnswers([
+                ...answers.slice(0, question),
+                [...nowAnswer.slice(0, nowAnswer.length), answerId],
+            ]);
         } else {
-            setAnswers(answers => answers.concat(answerId));
+            setAnswers([...answers.slice(0, question), [answerId]]);
+        }
+    };
+
+    const setFirstAnswer = (answerId: number) => {
+        setAnswers([...answers, [answerId]]);
+    };
+
+    const procQuestion = (
+        answerId: number,
+        mode: number,
+        nowAnswer: number[],
+    ) => {
+        if (nowAnswer && nowAnswer.includes(answerId)) {
+            initAnswer();
+        } else if (nowAnswer && !nowAnswer.includes(answerId)) {
+            addAnswer(answerId, mode, nowAnswer);
+        } else {
+            setFirstAnswer(answerId);
         }
     };
 
@@ -111,8 +139,11 @@ const SurveyPage = () => {
                                 getAnswerList(questionList[question])[index],
                             )}
                             active={
-                                answers[question] ===
-                                getAnswerList(questionList[question])[index]
+                                answers[question]?.includes(
+                                    getAnswerList(questionList[question])[
+                                        index
+                                    ],
+                                )
                                     ? true
                                     : false
                             }
@@ -121,6 +152,7 @@ const SurveyPage = () => {
                                     getAnswerList(questionList[question])[
                                         index
                                     ],
+                                    getQuestionMode(questionList[question]),
                                 )
                             }
                         >
