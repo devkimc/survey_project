@@ -3,6 +3,7 @@ import SurveyAnswerList from 'components/SurveyAnswerList';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
+    getAnswer,
     getQuestionList,
     getQuestionMode,
     getQuestionTitle,
@@ -82,7 +83,19 @@ const SurveyPage = () => {
         }
 
         if (completed) {
-            const surveyResult = '11\n11';
+            const initString: string = '';
+            const surveyResult: string = questionList.reduce(
+                (prev, curr, index) =>
+                    prev +
+                    getQuestionTitle(curr) +
+                    ': ' +
+                    answers[index].reduce(
+                        (prev, curr) => prev + getAnswer(curr) + ' ',
+                        initString,
+                    ) +
+                    '\n',
+                initString,
+            );
             alert(surveyResult);
         }
     };

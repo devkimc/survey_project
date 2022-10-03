@@ -14,7 +14,6 @@ type Props = {
     answers: AnswersType;
     setAnswers: (answers: AnswersType) => void;
 };
-
 const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
     const initAnswer = (prevAnswers: AnswersType) => {
         setAnswers(prevAnswers);
@@ -61,7 +60,6 @@ const SurveyAnswerList = ({ page, questionId, answers, setAnswers }: Props) => {
             {getAnswerTextList(getAnswerList(questionId)).map(
                 (answer, index) => (
                     <SurveyAnswer
-                        id={String(index)}
                         active={answers[page]?.includes(
                             getAnswerList(questionId)[index],
                         )}
