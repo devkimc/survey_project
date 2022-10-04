@@ -93,6 +93,7 @@ const SurveyPage = () => {
 
     const setAlertPhrase = (): string => {
         const initialValue: string = '';
+
         return questionList.reduce(
             // 모든 질문에 대한 reduce
             (p, c, i) =>
