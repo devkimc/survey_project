@@ -6,7 +6,7 @@
 3. [http://localhost:3000/?id=0&name=홍길동](http://localhost:3000/?id=0&name=홍길동) 접속합니다
 
 ## 폴더구조 (src 디렉토리 기준)
-- __tests__: 유틸함수 테스트 코드
+- \_\_tests\_\_: 유틸함수 테스트 코드
 - components: 페이지를 구성하기 위한 컴포넌트 구성
 - datas: 설문 진행을 위한 예시 데이터
 - pages: 페이지
