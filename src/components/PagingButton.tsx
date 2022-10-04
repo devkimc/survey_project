@@ -1,6 +1,6 @@
 import React from 'react';
-import { backGreyIcon, backPrimaryIcon, nextGreyIcon } from 'static/images';
 import { getQuestionTitle, getAnswer } from 'utils/getSurveyData';
+import { backGreyIcon, backPrimaryIcon, nextGreyIcon } from 'static/images';
 import {
     PagingButtonBlock,
     PrevPageButton,
@@ -30,6 +30,14 @@ const PagingButton = ({
     setPage,
     goBackOnePage,
 }: Props) => {
+    const onClickPrevPage = () => {
+        if (page) {
+            setPage(page - 1);
+        } else {
+            goBackOnePage();
+        }
+    };
+
     const chkValidAnswer = (mode: number): boolean => {
         const answersCount = answers[page]?.length;
         const isValidSingleSurvey = !mode && answersCount === 1;
@@ -39,24 +47,6 @@ const PagingButton = ({
             return true;
         } else {
             return false;
-        }
-    };
-
-    const onClickPrevPage = () => {
-        if (page) {
-            setPage(page - 1);
-        } else {
-            goBackOnePage();
-        }
-    };
-
-    const onClickNextPage = (mode: number) => {
-        if (chkValidAnswer(mode)) {
-            setPage(page + 1);
-        }
-
-        if (completed) {
-            alert(setAlertPhrase());
         }
     };
 
@@ -73,6 +63,16 @@ const PagingButton = ({
                 )}\n`,
             initialValue,
         );
+    };
+
+    const onClickNextPage = (mode: number) => {
+        if (chkValidAnswer(mode)) {
+            setPage(page + 1);
+        }
+
+        if (completed) {
+            alert(setAlertPhrase());
+        }
     };
 
     return (

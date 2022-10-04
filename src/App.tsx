@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import InfoPage from './pages/InfoPage';
-import SurveyPage from './pages/SurveyPage';
+import { InfoPage, SurveyPage } from 'pages';
 
 const App = () => {
     return (

@@ -1,9 +1,12 @@
-import survey from 'datas/surveys.json';
-import questions from 'datas/questions.json';
-import answers from 'datas/answers.json';
+import { survey, questions, answers } from 'datas';
 
 /* Survey */
-const getSurveyObject = (id: string) => {
+type SurveyType = {
+    title: string;
+    questions: number[];
+};
+
+const getSurveyObject = (id: string): SurveyType => {
     return survey.surveys[Number(id)];
 };
 
@@ -13,7 +16,13 @@ export const getSurveyTitle = (id: string): string => {
 };
 
 /* Question */
-const getQuestionObject = (questionId: number) => {
+type QuestionType = {
+    title: string;
+    mode: number;
+    answers: number[];
+};
+
+const getQuestionObject = (questionId: number): QuestionType => {
     return questions.questions[questionId];
 };
 

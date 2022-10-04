@@ -1,10 +1,11 @@
-import PagingButton from 'components/PagingButton';
-import ProgressBar from 'components/ProgressBar';
-import SurveyAnswerList from 'components/SurveyAnswerList';
-import SurveyDone from 'components/SurveyDone';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { backBlackIcon } from 'static/images';
+import {
+    ProgressBar,
+    SurveyAnswerList,
+    SurveyDone,
+    PagingButton,
+} from 'components';
 import {
     getQuestionList,
     getQuestionMode,
@@ -18,12 +19,14 @@ import {
     SurveyMain,
     SurveyNowPage,
     SurveyPageBlock,
-    SurveyProgressPage,
+    SurveyPageNumber,
+    SurveyProgress,
     SurveyQuestionTitle,
     SurveyTitle,
     SurveyTitleTxt,
     SurveyTotalPage,
 } from './SurveyPage.style';
+import { backBlackIcon } from 'static/images';
 
 const SurveyPage = () => {
     const [page, setPage] = useState<number>(0);
@@ -31,10 +34,9 @@ const SurveyPage = () => {
     const [completed, setCompleted] = useState<boolean>(false);
     const [questionList, setQuestionList] = useState<number[]>([]);
     const [surveyTitle, setSurveyTitle] = useState<string>('');
-
     const navigate = useNavigate();
 
-    /* 설문 ID, 답안지 선택 여부 검사 */
+    /* 설문 ID 존재 여부 검사 */
     useEffect(() => {
         const surveyId = sessionStorage.getItem('surveyId');
 
@@ -46,8 +48,8 @@ const SurveyPage = () => {
 
     /* 페이징 처리 */
     useEffect(() => {
-        const progress = page - (questionList.length - 1);
-        if (progress > 0 || (progress === 0 && completed)) {
+        const isGoCompleted = page > questionList.length - 1;
+        if (isGoCompleted || completed) {
             setCompleted(completed => !completed);
         }
     }, [page]);
@@ -62,7 +64,7 @@ const SurveyPage = () => {
     return (
         <SurveyPageBlock>
             {!completed ? (
-                <>
+                <SurveyProgress>
                     <SurveyHeader>
                         <BackBlackIcon
                             onClick={goBackOnePage}
@@ -80,13 +82,13 @@ const SurveyPage = () => {
                             <SurveyTitleTxt>{surveyTitle}</SurveyTitleTxt>
                         </SurveyTitle>
 
-                        <SurveyProgressPage>
+                        <SurveyPageNumber>
                             <SurveyNowPage>{page + 1}</SurveyNowPage>
                             <SurveyTotalPage>
                                 {' '}
                                 /{questionList.length}
                             </SurveyTotalPage>
-                        </SurveyProgressPage>
+                        </SurveyPageNumber>
 
                         <SurveyQuestionTitle>
                             <QuestionTitleTxt>
@@ -102,7 +104,7 @@ const SurveyPage = () => {
                             setAnswers={setAnswers}
                         />
                     </SurveyMain>
-                </>
+                </SurveyProgress>
             ) : (
                 <SurveyDone surveyTitle={surveyTitle} />
             )}

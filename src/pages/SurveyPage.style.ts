@@ -9,6 +9,8 @@ export const SurveyPageBlock = styled.div`
     padding-top: 20px;
 `;
 
+export const SurveyProgress = styled.div``;
+
 /* Header */
 export const SurveyHeader = styled.div`
     padding-bottom: 50px;
@@ -36,7 +38,7 @@ export const SurveyTitleTxt = styled.span`
     color: ${props => props.theme.black};
 `;
 
-export const SurveyProgressPage = styled.div``;
+export const SurveyPageNumber = styled.div``;
 
 export const SurveyNowPage = styled.span`
     font-family: 'NotoSansCJKkr-Bold';
