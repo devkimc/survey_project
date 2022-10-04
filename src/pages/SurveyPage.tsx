@@ -64,6 +64,7 @@ const SurveyPage = () => {
     return (
         <SurveyPageBlock>
             {!completed ? (
+                /* 설문 진행 시 */
                 <SurveyProgress>
                     <SurveyHeader>
                         <BackBlackIcon
@@ -106,6 +107,7 @@ const SurveyPage = () => {
                     </SurveyMain>
                 </SurveyProgress>
             ) : (
+                /* 설문 완료 시 */
                 <SurveyDone surveyTitle={surveyTitle} />
             )}
 

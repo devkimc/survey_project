@@ -1,6 +1,6 @@
 import React from 'react';
-import { getQuestionTitle, getAnswer } from 'utils/getSurveyData';
 import { backGreyIcon, backPrimaryIcon, nextGreyIcon } from 'static/images';
+import getAlertPhrase from 'utils/getSurveyResultPhrase';
 import {
     PagingButtonBlock,
     PrevPageButton,
@@ -50,29 +50,12 @@ const PagingButton = ({
         }
     };
 
-    const setAlertPhrase = (): string => {
-        const initialValue: string = '';
-
-        return questionList.reduce(
-            // 모든 질문에 대한 reduce
-            (p, c, i) =>
-                `${p}${getQuestionTitle(c)}: ${answers[i].reduce(
-                    // 모든 답안에 대한 reduce
-                    (p, c) => `${p}${getAnswer(c)} `,
-                    initialValue,
-                )}\n`,
-            initialValue,
-        );
-    };
-
     const onClickNextPage = (mode: number) => {
-        if (chkValidAnswer(mode)) {
-            setPage(page + 1);
-        }
+        // 답안이 유효할 시 페이지 이동
+        if (chkValidAnswer(mode)) setPage(page + 1);
 
-        if (completed) {
-            alert(setAlertPhrase());
-        }
+        // 완료 시 알람
+        if (completed) alert(getAlertPhrase(questionList, answers));
     };
 
     return (
