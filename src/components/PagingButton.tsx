@@ -17,8 +17,10 @@ type Props = {
     completed: boolean;
     questionList: number[];
     questionMode: number;
+    isValidAnswer: boolean;
     setPage: (page: number) => void;
     goBackOnePage: () => void;
+    chkValidAnswer: (mode: number) => boolean;
 };
 
 const PagingButton = ({
@@ -27,26 +29,16 @@ const PagingButton = ({
     completed,
     questionList,
     questionMode,
+    isValidAnswer,
     setPage,
     goBackOnePage,
+    chkValidAnswer,
 }: Props) => {
     const onClickPrevPage = () => {
         if (page) {
             setPage(page - 1);
         } else {
             goBackOnePage();
-        }
-    };
-
-    const chkValidAnswer = (mode: number): boolean => {
-        const answersCount = answers[page]?.length;
-        const isValidSingleSurvey = !mode && answersCount === 1;
-        const isValidMultiSurvey = mode && answersCount > 1;
-
-        if (isValidSingleSurvey || isValidMultiSurvey) {
-            return true;
-        } else {
-            return false;
         }
     };
 
@@ -65,18 +57,13 @@ const PagingButton = ({
                 <PrevPageTxt>이전</PrevPageTxt>
             </PrevPageButton>
 
-            <NextPageButton onClick={() => onClickNextPage(questionMode)}>
-                <NextPageTxt
-                    isValid={completed || chkValidAnswer(questionMode)}
-                >
-                    다음
-                </NextPageTxt>
+            <NextPageButton
+                isValid={isValidAnswer}
+                onClick={() => onClickNextPage(questionMode)}
+            >
+                <NextPageTxt isValid={isValidAnswer}>다음</NextPageTxt>
                 <BackPrimaryIcon
-                    src={
-                        completed || chkValidAnswer(questionMode)
-                            ? backPrimaryIcon
-                            : nextGreyIcon
-                    }
+                    src={isValidAnswer ? backPrimaryIcon : nextGreyIcon}
                 />
             </NextPageButton>
         </PagingButtonBlock>

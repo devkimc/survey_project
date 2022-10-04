@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ThemeType } from 'styles/theme';
 
-type NextPageTxtType = {
+type NextPageType = {
     theme: ThemeType;
     isValid: boolean;
 };
@@ -15,16 +15,16 @@ export const PrevPageButton = styled.div`
     position: relative;
     cursor: pointer;
 `;
-export const NextPageButton = styled.div`
+export const NextPageButton = styled.div<NextPageType>`
     position: relative;
-    cursor: pointer;
+    cursor: ${props => (props.isValid ? 'pointer' : 'default')};
 `;
 
 export const PrevPageTxt = styled.span`
     font-family: 'NotoSansCJKkr-Bold';
     color: ${props => props.theme.grey};
 `;
-export const NextPageTxt = styled.span<NextPageTxtType>`
+export const NextPageTxt = styled.span<NextPageType>`
     font-family: 'NotoSansCJKkr-Bold';
     color: ${props => (props.isValid ? props.theme.yellow : '#cccccc')};
 `;

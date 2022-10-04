@@ -46,13 +46,25 @@ const SurveyPage = () => {
         }
     }, []);
 
-    /* 페이징 처리 */
+    /* 설문완료 화면 변경 */
     useEffect(() => {
         const isGoCompleted = page > questionList.length - 1;
         if (isGoCompleted || completed) {
             setCompleted(completed => !completed);
         }
     }, [page]);
+
+    const chkValidAnswer = (mode: number): boolean => {
+        const answersCount = answers[page]?.length;
+        const isValidSingleSurvey = !mode && answersCount === 1;
+        const isValidMultiSurvey = mode && answersCount > 1;
+
+        if (isValidSingleSurvey || isValidMultiSurvey) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     const goBackOnePage = () => navigate(-1);
 
@@ -117,8 +129,10 @@ const SurveyPage = () => {
                 completed={completed}
                 questionList={questionList}
                 questionMode={questionMode}
+                isValidAnswer={completed || chkValidAnswer(questionMode)}
                 setPage={setPage}
                 goBackOnePage={goBackOnePage}
+                chkValidAnswer={chkValidAnswer}
             />
         </SurveyPageBlock>
     );

@@ -48,7 +48,7 @@ export const SurveyNowPage = styled.span`
 
 export const SurveyTotalPage = styled.span`
     font-size: 14px;
-    color: '#cccccc';
+    color: #cccccc;
 `;
 
 export const SurveyQuestionTitle = styled.div`
