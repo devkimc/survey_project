@@ -1,4 +1,4 @@
-# survey_practice
+# survey_project
 
 ## 사용방법
 1. npm install
