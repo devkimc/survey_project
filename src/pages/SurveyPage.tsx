@@ -1,16 +1,11 @@
+import PagingButton from 'components/PagingButton';
 import ProgressBar from 'components/ProgressBar';
 import SurveyAnswerList from 'components/SurveyAnswerList';
 import SurveyDone from 'components/SurveyDone';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { backBlackIcon } from 'static/images';
 import {
-    backBlackIcon,
-    backGreyIcon,
-    backPrimaryIcon,
-    nextGreyIcon,
-} from 'static/images';
-import {
-    getAnswer,
     getQuestionList,
     getQuestionMode,
     getQuestionTitle,
@@ -18,14 +13,7 @@ import {
 } from 'utils/getSurveyData';
 import {
     BackBlackIcon,
-    BackGreyIcon,
-    BackPrimaryIcon,
-    NextPageButton,
-    NextPageTxt,
-    PrevPageButton,
-    PrevPageTxt,
     QuestionTitleTxt,
-    SurveyFooter,
     SurveyHeader,
     SurveyMain,
     SurveyNowPage,
@@ -56,15 +44,6 @@ const SurveyPage = () => {
         }
     }, []);
 
-    const chkValidAnswer = (mode: number): boolean => {
-        const answersCount = answers[page]?.length;
-        if ((!mode && answersCount === 1) || (mode && answersCount > 1)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
     /* 페이징 처리 */
     useEffect(() => {
         const progress = page - (questionList.length - 1);
@@ -73,38 +52,7 @@ const SurveyPage = () => {
         }
     }, [page]);
 
-    const onClickPrevPage = () => {
-        if (page) {
-            setPage(page => page - 1);
-        } else {
-            navigate(-1);
-        }
-    };
-
-    const onClickNextPage = (mode: number) => {
-        if (chkValidAnswer(mode)) {
-            setPage(page => page + 1);
-        }
-
-        if (completed) {
-            alert(setAlertPhrase());
-        }
-    };
-
-    const setAlertPhrase = (): string => {
-        const initialValue: string = '';
-
-        return questionList.reduce(
-            // 모든 질문에 대한 reduce
-            (p, c, i) =>
-                `${p}${getQuestionTitle(c)}: ${answers[i].reduce(
-                    // 모든 답안에 대한 reduce
-                    (p, c) => `${p}${getAnswer(c)} `,
-                    initialValue,
-                )}\n`,
-            initialValue,
-        );
-    };
+    const goBackOnePage = () => navigate(-1);
 
     const questionMode = useMemo(
         () => getQuestionMode(questionList[page]),
@@ -113,13 +61,11 @@ const SurveyPage = () => {
 
     return (
         <SurveyPageBlock>
-            {completed ? (
-                <SurveyDone surveyTitle={surveyTitle} />
-            ) : (
+            {!completed ? (
                 <>
                     <SurveyHeader>
                         <BackBlackIcon
-                            onClick={() => navigate(-1)}
+                            onClick={goBackOnePage}
                             src={backBlackIcon}
                         />
                     </SurveyHeader>
@@ -157,29 +103,19 @@ const SurveyPage = () => {
                         />
                     </SurveyMain>
                 </>
+            ) : (
+                <SurveyDone surveyTitle={surveyTitle} />
             )}
 
-            <SurveyFooter>
-                <PrevPageButton onClick={onClickPrevPage}>
-                    <BackGreyIcon src={backGreyIcon} />
-                    <PrevPageTxt>이전</PrevPageTxt>
-                </PrevPageButton>
-
-                <NextPageButton onClick={() => onClickNextPage(questionMode)}>
-                    <NextPageTxt
-                        isValid={completed || chkValidAnswer(questionMode)}
-                    >
-                        다음
-                    </NextPageTxt>
-                    <BackPrimaryIcon
-                        src={
-                            completed || chkValidAnswer(questionMode)
-                                ? backPrimaryIcon
-                                : nextGreyIcon
-                        }
-                    />
-                </NextPageButton>
-            </SurveyFooter>
+            <PagingButton
+                page={page}
+                answers={answers}
+                completed={completed}
+                questionList={questionList}
+                questionMode={questionMode}
+                setPage={setPage}
+                goBackOnePage={goBackOnePage}
+            />
         </SurveyPageBlock>
     );
 };

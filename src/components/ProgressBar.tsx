@@ -29,8 +29,9 @@ const ProgressBar = ({ page, questionsCount }: Props) => {
     return (
         <ProgressBarBlock>
             <ProgressCircle src={progressCircleImg} />
-            {pages.map((element: number) => (
+            {pages.map((element: number, index: number) => (
                 <ProgressImage
+                    key={index}
                     src={
                         progressBar[page] > element
                             ? progressPrimaryImg

@@ -1,10 +1,4 @@
 import styled from 'styled-components';
-import { ThemeType } from 'styles/theme';
-
-type NextPageTxtType = {
-    theme: ThemeType;
-    isValid: boolean;
-};
 
 export const SurveyPageBlock = styled.div`
     display: flex;
@@ -61,38 +55,4 @@ export const SurveyQuestionTitle = styled.div`
 
 export const QuestionTitleTxt = styled.span`
     color: ${props => props.theme.grey};
-`;
-
-/* Footer */
-export const SurveyFooter = styled.div`
-    display: flex;
-    justify-content: space-around;
-`;
-
-export const PrevPageButton = styled.div`
-    position: relative;
-    cursor: pointer;
-`;
-export const NextPageButton = styled.div`
-    position: relative;
-    cursor: pointer;
-`;
-
-export const PrevPageTxt = styled.span`
-    font-family: 'NotoSansCJKkr-Bold';
-    color: ${props => props.theme.grey};
-`;
-export const NextPageTxt = styled.span<NextPageTxtType>`
-    font-family: 'NotoSansCJKkr-Bold';
-    color: ${props => (props.isValid ? props.theme.yellow : '#cccccc')};
-`;
-
-export const BackGreyIcon = styled.img`
-    position: absolute;
-    right: 35px;
-`;
-
-export const BackPrimaryIcon = styled.img`
-    position: absolute;
-    left: 35px;
 `;

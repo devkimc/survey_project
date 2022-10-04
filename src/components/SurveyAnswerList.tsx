@@ -64,6 +64,7 @@ const SurveyAnswerList = ({
         <SurveyAnswersListBlock>
             {getAnswerTextList(answerList).map((answer, index) => (
                 <SurveyAnswer
+                    key={answerList[index]}
                     active={answers[page]?.includes(answerList[index])}
                     onClick={() =>
                         onClickAnswer(answerList[index], questionMode)
