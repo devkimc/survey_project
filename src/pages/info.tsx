@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import surveys from 'datas/surveys.json';
 import {
     InfoExplain,
@@ -16,14 +17,13 @@ import {
     InfoImg,
     InfoMain,
     BackBlackIcon,
-} from './InfoPage.style';
+} from './info.style';
 import { getQuestionList } from 'utils/getSurveyData';
-import { backBlackIcon, surveyImg } from 'static/images';
 
-const InfoPage = () => {
+const Info = () => {
     const [userName, setUserName] = useState<string>('');
     const [questionCount, setQuerstionCount] = useState<number>(0);
-    const surveyInfo: string = useLocation().search;
+    const surveyInfo: string = useRouter().pathname;
 
     /* param */
     useEffect(() => {
@@ -77,7 +77,7 @@ const InfoPage = () => {
                     <SurveyCountTxt isNumber={false}>입니다.</SurveyCountTxt>
                 </SurveyCountExplain>
 
-                <Link to={questionCount ? '/survey' : '/'}>
+                <Link href={questionCount ? '/survey' : '/'}>
                     <SurveyStartButton>설문시작</SurveyStartButton>
                 </Link>
             </InfoFooter>
@@ -85,4 +85,4 @@ const InfoPage = () => {
     );
 };
 
-export default InfoPage;
+export default Info;
