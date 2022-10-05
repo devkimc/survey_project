@@ -43,7 +43,7 @@ const Info = () => {
     return (
         <InfoPageBlock>
             <InfoHeader>
-                <BackBlackIcon src={backBlackIcon} />
+                {/* <BackBlackIcon src={backBlackIcon} /> */}
                 <InfoTitle>기초설문</InfoTitle>
             </InfoHeader>
 
@@ -63,9 +63,7 @@ const Info = () => {
                 </InfoExplain>
             </InfoMain>
 
-            <InfoImg>
-                <InfoSurveyImg src={surveyImg} />
-            </InfoImg>
+            <InfoImg>{/* <InfoSurveyImg src={surveyImg} /> */}</InfoImg>
 
             <InfoFooter>
                 <SurveyCountExplain>

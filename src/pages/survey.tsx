@@ -81,7 +81,7 @@ const SurveyPage = () => {
                     <SurveyHeader>
                         <BackBlackIcon
                             onClick={goBackOnePage}
-                            src={backBlackIcon}
+                            // src={backBlackIcon}
                         />
                     </SurveyHeader>
 

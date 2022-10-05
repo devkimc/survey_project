@@ -14,7 +14,7 @@ type Props = {
 const SurveyDone = ({ surveyTitle }: Props) => {
     return (
         <SurveyDoneBlock>
-            <SurveyDoneImg src={surveyDoneImg} />
+            {/* <SurveyDoneImg src={surveyDoneImg} /> */}
             <CompletedSurveyTitle>{surveyTitle}</CompletedSurveyTitle>
             <CompletedSurveyExplain>
                 평가설문이 끝났습니다.
