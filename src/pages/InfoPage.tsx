@@ -38,6 +38,7 @@ const InfoPage = () => {
             setUserName(name);
             setQuerstionCount(questions.length);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

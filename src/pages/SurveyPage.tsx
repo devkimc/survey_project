@@ -52,6 +52,7 @@ const SurveyPage = () => {
         if (isGoCompleted || completed) {
             setCompleted(completed => !completed);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const chkValidAnswer = (mode: number): boolean => {
@@ -70,6 +71,7 @@ const SurveyPage = () => {
 
     const questionMode = useMemo(
         () => getQuestionMode(questionList[page]),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [page],
     );
 
