@@ -53,7 +53,7 @@ const PagingButton = ({
     return (
         <PagingButtonBlock>
             <PrevPageButton onClick={onClickPrevPage}>
-                {/* <BackGreyIcon src={backGreyIcon} /> */}
+                <BackGreyIcon src={backGreyIcon} />
                 <PrevPageTxt>이전</PrevPageTxt>
             </PrevPageButton>
 
@@ -63,7 +63,7 @@ const PagingButton = ({
             >
                 <NextPageTxt isValid={isValidAnswer}>다음</NextPageTxt>
                 <BackPrimaryIcon
-                // src={isValidAnswer ? backPrimaryIcon : nextGreyIcon}
+                    src={isValidAnswer ? backPrimaryIcon : nextGreyIcon}
                 />
             </NextPageButton>
         </PagingButtonBlock>
