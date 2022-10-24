@@ -54,6 +54,7 @@ const SurveyPage = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
+    console.log(`${page}|${questionList}|${completed}`);
 
     const chkValidAnswer = (mode: number): boolean => {
         const answersCount = answers[page]?.length;
