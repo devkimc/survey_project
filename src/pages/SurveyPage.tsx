@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import {
     ProgressBar,
     SurveyAnswerList,
@@ -25,7 +25,7 @@ import {
     SurveyTitle,
     SurveyTitleTxt,
     SurveyTotalPage,
-} from './survey.style';
+} from './SurveyPage.style';
 import { backBlackIcon } from 'static/images';
 
 const SurveyPage = () => {
@@ -34,7 +34,7 @@ const SurveyPage = () => {
     const [completed, setCompleted] = useState<boolean>(false);
     const [questionList, setQuestionList] = useState<number[]>([]);
     const [surveyTitle, setSurveyTitle] = useState<string>('');
-    const router = useRouter();
+    const navigate = useNavigate();
 
     /* 설문 ID 존재 여부 검사 */
     useEffect(() => {
@@ -66,7 +66,7 @@ const SurveyPage = () => {
         }
     };
 
-    const goBackOnePage = () => router.back();
+    const goBackOnePage = () => navigate(-1);
 
     const questionMode = useMemo(
         () => getQuestionMode(questionList[page]),
