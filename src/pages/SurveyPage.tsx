@@ -48,13 +48,13 @@ const SurveyPage = () => {
 
     /* 설문완료 화면 변경 */
     useEffect(() => {
-        const isGoCompleted = page > questionList.length - 1;
+        const questionCount = questionList.length;
+        const isGoCompleted = questionCount && page > questionCount - 1;
         if (isGoCompleted || completed) {
             setCompleted(completed => !completed);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
-    console.log(`${page}|${questionList}|${completed}`);
 
     const chkValidAnswer = (mode: number): boolean => {
         const answersCount = answers[page]?.length;
